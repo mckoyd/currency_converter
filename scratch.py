@@ -43,3 +43,6 @@ convert_button.grid(row=3, columnspan=2)
 
 
 root.mainloop()
+
+# Get color of button background
+# print(self.convert_button.cget('background'))

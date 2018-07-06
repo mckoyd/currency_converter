@@ -31,14 +31,19 @@ def get_abbr(source, currency_name):
 
 def get_currency_rate(source, currency_name):
   CURRENCY_RATES = Currency('live', source).get_data()['quotes']
-  for rate in CURRENCY_RATES:
-    if(get_abbr(source, currency_name) == rate):
-      return CURRENCY_RATES[rate]
+  if (len(currency_name) > 3 ):
+    for rate in CURRENCY_RATES:
+      if(get_abbr(source, currency_name) == rate):
+        return CURRENCY_RATES[rate]
+  else:
+    for rate in CURRENCY_RATES:
+      if(f'{source}{currency_name}' == rate):
+        return CURRENCY_RATES[rate]
 
-def convert_from_source(source, currency_name, currency_amount):
+def convert_to_source(source, currency_name, currency_amount):
   rate = get_currency_rate(source, currency_name)
   return Decimal(currency_amount * rate).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
 
-def convert_to_source(source, currency_name, currency_amount):
+def convert_from_source(source, currency_name, currency_amount):
   rate = get_currency_rate(source, currency_name)
   return Decimal(currency_amount / rate).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
